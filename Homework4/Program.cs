@@ -13,7 +13,8 @@ namespace HomeworkFive
         {
             Console.WriteLine("");
             long m = int.Parse(Console.ReadLine() ?? "");
-            Console.WriteLine(Factor(m));
+            if (m < 0) Console.WriteLine("Поиск факториала невозможен");
+            else Console.WriteLine(Factor(m));
         }
     }
 }
