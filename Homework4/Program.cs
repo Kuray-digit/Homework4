@@ -4,153 +4,89 @@ namespace HomeworkFive
 {
     class Program
     {
-        public static void Main(string[] args)
-        { 
-            while (true)
-            {
-                Console.Write("Введите число (0-9) или 'exit'/'закрыть' для выхода: ");
-                string input = Console.ReadLine() ?? "";
-                if (input.Trim().ToLower() == "exit" || input.Trim().ToLower() == "закрыть"
-                    || input.Trim() == "")
-                {
-                    break;
-                }
-                if (!int.TryParse(input, out int number))
-                {
-                    throw new FormatException($"Введённое значение \"{input}\" не является числом.");
-                }
-                if (number < 0 || number > 9)
-                {
-                    Console.BackgroundColor = ConsoleColor.Red;
-                    Console.ForegroundColor = ConsoleColor.White;
-                    Console.Clear();
-                    Console.WriteLine("Ошибка! Число должно быть от 0 до 9.");
-                    Thread.Sleep(3000);
+        enum GrumpinessLevel
+        {
+            Low,
+            Medium,
+            High,
+            Extreme
+        }
 
-                    Console.ResetColor();
-                    Console.Clear();
-                }
-                else
+        struct Grandfather
+        {
+            public string Name;
+            public GrumpinessLevel Grumpiness;
+            public string[] Phrases;
+            public int Bruises; // синяки
+
+            public Grandfather(string name, GrumpinessLevel grumpiness, params string[] phrases)
+            {
+                Name = name;
+                Grumpiness = grumpiness;
+                Phrases = phrases;
+                Bruises = 0; // по умолчанию
+            }
+            public int GetBruisesFromGrandma(params string[] swearWords)
+            {
+                int count = 0;
+
+                if (Phrases != null && swearWords != null)
                 {
-                    Console.Clear();
-                    DrawDigit(number);
-                    Console.WriteLine();
+                    foreach (string phrase in Phrases)
+                    {
+                        if (phrase == null) continue;
+
+                        foreach (string swear in swearWords)
+                        {
+                            if (swear == null) continue;
+
+                            if (phrase.IndexOf(swear, StringComparison.OrdinalIgnoreCase) >= 0)
+                            {
+                                count++;
+                                break;
+                            }
+                        }
+                    }
                 }
+
+                Bruises += count;
+                return count;
             }
         }
-        
-        static void DrawDigit(int digit)
+        public static void Main(string[] args)
         {
-            string[] pattern;
+            Grandfather[] grandfathers =
+            {
+            new Grandfather("Иван", GrumpinessLevel.Low,
+                "Проститутки!"),
 
-            switch (digit)
+            new Grandfather("Пётр", GrumpinessLevel.Medium,
+                "Гады!", "Совсем стыд потеряли!"),
+
+            new Grandfather("Семён", GrumpinessLevel.High,
+                "Проститутки!", "Гады!", "Молодёжь пошла не та!"),
+
+            new Grandfather("Николай", GrumpinessLevel.Extreme,
+                "Проститутки!", "Гады!", "Идиоты!", "Да что ж такое!",
+                "Раньше было лучше!"),
+
+            new Grandfather("Василий", GrumpinessLevel.Medium,
+                "Гады!", "Дурак!", "Олухи!", "Проститутки!")
+            };
+
+
+            string[] swearWords = { "Проститутки", "Гады", "Дурак" };
+
+            foreach (Grandfather g in grandfathers)
             {
-                case 0:
-                    pattern = new[]
-                    {
-                    " ### ",
-                    "#   #",
-                    "#   #",
-                    "#   #",
-                    " ### "
-                };
-                    break;
-                case 1:
-                    pattern = new[]
-                    {
-                    "  #  ",
-                    " ##  ",
-                    "  #  ",
-                    "  #  ",
-                    " ### "
-                };
-                    break;
-                case 2:
-                    pattern = new[]
-                    {
-                    " ### ",
-                    "#   #",
-                    "   # ",
-                    "  #  ",
-                    "#####"
-                };
-                    break;
-                case 3:
-                    pattern = new[]
-                    {
-                    "#### ",
-                    "    #",
-                    " ### ",
-                    "    #",
-                    "#### "
-                };
-                    break;
-                case 4:
-                    pattern = new[]
-                    {
-                    "#   #",
-                    "#   #",
-                    "#####",
-                    "    #",
-                    "    #"
-                };
-                    break;
-                case 5:
-                    pattern = new[]
-                    {
-                    "#####",
-                    "#    ",
-                    "#### ",
-                    "    #",
-                    "#### "
-                };
-                    break;
-                case 6:
-                    pattern = new[]
-                    {
-                    " ### ",
-                    "#    ",
-                    "#### ",
-                    "#   #",
-                    " ### "
-                };
-                    break;
-                case 7:
-                    pattern = new[]
-                    {
-                    "#####",
-                    "    #",
-                    "   # ",
-                    "  #  ",
-                    "  #  "
-                };
-                    break;
-                case 8:
-                    pattern = new[]
-                    {
-                    " ### ",
-                    "#   #",
-                    " ### ",
-                    "#   #",
-                    " ### "
-                };
-                    break;
-                case 9:
-                    pattern = new[]
-                    {
-                    " ### ",
-                    "#   #",
-                    " ####",
-                    "    #",
-                    " ### "
-                };
-                    break;
-                default:
-                    return;
-            }
-            foreach (var line in pattern)
-            {
-                Console.WriteLine(line);
+                Grandfather current = g;
+                int fin = current.GetBruisesFromGrandma(swearWords);
+
+                Console.WriteLine($"Дед: {current.Name} ({current.Grumpiness})");
+                Console.WriteLine($"  Фраз: {current.Phrases.Length}");
+                Console.WriteLine($"  Новых фингалов: {fin}");
+                Console.WriteLine($"  Всего синяков: {current.Bruises}");
+                Console.WriteLine();
             }
         }
     }
