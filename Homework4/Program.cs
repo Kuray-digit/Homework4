@@ -20,8 +20,9 @@ namespace HomeworkFive
         public static void Main(string[] args)
         {
             Console.WriteLine("Введите число");
-            int n = int.Parse(Console.ReadLine() ?? ""); //Сделать проверку
-            Console.WriteLine(Fibonachi(n));
+            int n = int.Parse(Console.ReadLine() ?? "");
+            if (n < 0) Console.WriteLine("Невозможно вычислить значение");
+            else Console.WriteLine(Fibonachi(n));
         }
     }
 }
