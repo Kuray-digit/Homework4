@@ -4,7 +4,7 @@ namespace HomeworkFive
 {
     class Program
     {
-        public static int Factor(int mainNumber)
+        public static long Factor(long mainNumber)
         {
             if (mainNumber == 2) return 2;
             return checked(mainNumber * Factor(mainNumber - 1));
@@ -12,7 +12,7 @@ namespace HomeworkFive
         public static void Main(string[] args)
         {
             Console.WriteLine("");
-            int m = int.Parse(Console.ReadLine() ?? "");
+            long m = int.Parse(Console.ReadLine() ?? "");
             Console.WriteLine(Factor(m));
         }
     }
