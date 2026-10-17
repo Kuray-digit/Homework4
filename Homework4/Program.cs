@@ -4,7 +4,7 @@ namespace HomeworkFive
 {
     class Program
     {
-        static bool TryFactorial(int n, out int result)
+        static bool TryFactorial(int n, out long result)
         {
             result = 1;
             if (n < 0)
@@ -32,11 +32,14 @@ namespace HomeworkFive
         static void Main()
         {
             int n = int.Parse(Console.ReadLine() ?? "");
-            if (TryFactorial(n, out int fact))
-                Console.WriteLine($"{n}! = {fact}");
+            if (n < 0) Console.WriteLine("Число меньше возможного");
             else
-                Console.WriteLine($"{n}! — переполнение (результат не помещается в int)");
-        
+            {
+                if (TryFactorial(n, out long fact))
+                    Console.WriteLine($"{n}! = {fact}");
+                else
+                    Console.WriteLine($"{n}! — переполнение (результат не помещается в long)");
+            }
         }
     }
 }
