@@ -6,7 +6,7 @@ namespace HomeworkFive
     {
         public static long Factor(long mainNumber)
         {
-            if (mainNumber == 2) return 2;
+            if (mainNumber == 0 || mainNumber == 1) return 1;
             return checked(mainNumber * Factor(mainNumber - 1));
         }
         public static void Main(string[] args)
