@@ -9,19 +9,18 @@ namespace HomeworkFive
             if (n == 0)
             {
                 return 0;
-            }else if (n == 1 || n == 2)
+            }
+            if (n == 1 || n == 2)
             {
                 return 1;
             }
-            else
-            {
-                return Fibonachi(n - 1) + Fibonachi(n - 2);
-            }
+            return Fibonachi(n - 1) + Fibonachi(n - 2);
+            
         }
         public static void Main(string[] args)
         {
             Console.WriteLine("Введите число");
-            int n = int.Parse(Console.ReadLine() ?? "");
+            int n = int.Parse(Console.ReadLine() ?? ""); //Сделать проверку
             Console.WriteLine(Fibonachi(n));
         }
     }
